@@ -24,7 +24,7 @@ project-root/
 │   ├── app/
 │   │   ├── main.py          # FastAPI app entrypoint
 │   │   ├── rag.py           # LangChain RAG pipeline logic
-│   │   ├── db.py            # PostgreSQL + pgvector connection
+│   │   ├── chroma_db.py            # PostgreSQL + pgvector connection
 │   │   ├── models.py        # DB models/schemas
 │   │   ├── utils.py         # Utility functions
 │   │   └── config.py        # Settings (env, API keys)
