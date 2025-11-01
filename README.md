@@ -1,107 +1,151 @@
-## CogniChain : LLM-Powered Chat Application with RAG and LangChain
+# CogniChain
 
-**1. Project Structure**
-
-    Frontend/UI: Chainlit (Python-based, rapid chat UIs for LLM apps)
-    Backend: FastAPI (Python, REST API)
-    Vector DB: PostgreSQL with pgvector
-    LLM/RAG: LangChain (Python)
-
-    project-root/
-    │
-    ├── backend/
-    │   ├── app/
-    │   │   ├── __init__.py
-    │   │   ├── main.py          # FastAPI app entrypoint
-    │   │   ├── rag.py           # LangChain RAG pipeline logic
-    │   │   ├── db.py            # PostgreSQL + pgvector connection
-    │   │   ├── models.py        # DB models/schemas
-    │   │   ├── utils.py         # Utility functions
-    │   │   └── config.py        # Settings (env, API keys)
-    │   ├── requirements.txt     # Python dependencies for backend
-    │   └── README.md
-    │
-    ├── chainlit-ui/
-    │   ├── app.py               # Chainlit UI logic
-    │   ├── .chainlit/           # Chainlit config & assets
-    │   ├── requirements.txt     # Python dependencies for Chainlit
-    │   └── README.md
-    │
-    ├── data/
-    │   └── sample_docs/         # Sample documents for ingestion/testing
-    │
-    ├── scripts/
-    │   └── init_db.py           # Script to initialize DB tables/extensions
-    │
-    ├── .env                     # Environment variables (DB connection, LLM keys)
-    ├── docker-compose.yml       # (optional) For running services locally
-    └── README.md                # Top-level documentation
-
+CogniChain is a user-friendly AI chat application powered by Large Language Models (LLMs) and Retrieval Augmented Generation (RAG). It combines a sleek chat interface (Chainlit), a scalable FastAPI backend, LangChain for intelligent retrieval and reasoning, and PostgreSQL with pgvector for efficient vector search.
 
 ---
 
+## 🚀 Features
 
-2. Step-by-Step Guide
-Step 1: Set Up PostgreSQL with pgvector
+- **Conversational AI**: Ask questions and get informative, context-aware answers.
+- **Document Retrieval (RAG)**: Pulls relevant information from your knowledge base using embeddings and similarity search.
+- **Vector Database**: Uses PostgreSQL with pgvector to store and search document embeddings.
+- **LangChain Integration**: Leverages LangChain’s tools for document loading, prompt templates, and chaining logic.
+- **Modern UI**: Built with Chainlit for a seamless chat experience.
+- **Scalable Backend**: FastAPI powers the REST endpoints.
 
-    Install PostgreSQL:
-        Locally: Install Docs
-        Cloud: Supabase
+---
 
-    Enable pgvector:
-    sh
+## 🗂️ Project Structure
 
+```
+project-root/
+│
+├── backend/
+│   ├── app/
+│   │   ├── main.py          # FastAPI app entrypoint
+│   │   ├── rag.py           # LangChain RAG pipeline logic
+│   │   ├── db.py            # PostgreSQL + pgvector connection
+│   │   ├── models.py        # DB models/schemas
+│   │   ├── utils.py         # Utility functions
+│   │   └── config.py        # Settings (env, API keys)
+│   ├── requirements.txt     # Backend dependencies
+│   └── README.md
+│
+├── chainlit-ui/
+│   ├── app.py               # Chainlit UI logic
+│   ├── .chainlit/           # Chainlit config & assets
+│   ├── requirements.txt     # Chainlit dependencies
+│   └── README.md
+│
+├── data/
+│   └── sample_docs/         # Sample documents for ingestion
+│
+├── scripts/
+│   └── init_db.py           # DB initialization script
+│
+├── .env                     # Environment variables
+├── docker-compose.yml       # (optional) Service orchestration
+└── README.md
+```
+
+---
+
+## ⚡ Quickstart
+
+### 1. **Clone the repository**
+```sh
+git clone https://github.com/yourusername/vectrachat.git
+cd vectrachat
+```
+
+### 2. **Set up PostgreSQL with pgvector**
+- [Install PostgreSQL](https://www.postgresql.org/download/)
+- Enable pgvector extension:
+    ```sql
     CREATE EXTENSION IF NOT EXISTS vector;
+    ```
 
-    Create Tables:
-    Store documents and their embeddings.
+### 3. **Backend Setup**
+```sh
+cd backend
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+# Copy and edit .env for DB and LLM keys
+uvicorn app.main:app --reload
+```
 
-Step 2: Backend with FastAPI
+### 4. **Chainlit UI Setup**
+```sh
+cd ../chainlit-ui
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+chainlit run app.py
+```
 
-    Create FastAPI Project:
-    sh
+### 5. **Ingest Documents (Optional)**
+Put your documents in `data/sample_docs/` and use provided scripts to embed and store them.
 
-    pip install fastapi uvicorn langchain pgvector psycopg2-binary
+### 6. **Open the Chat UI**
+Visit `http://localhost:8501` (or the port shown in Chainlit output) in your browser.
 
-    Implement API endpoints:
-        /chat: Accepts user query, returns LLM response
-        /upload: For document ingestion (optional)
+---
 
-    LangChain Integration:
-        Use LangChain’s pgvector integration for retrieval
-        Build RAG pipeline (retriever + LLM)
+## 🛠️ Technologies Used
 
-Step 3: Chainlit Chat UI
+- **Chainlit** – Chat UI for LLM apps ([docs](https://docs.chainlit.io/))
+- **FastAPI** – Fast, modern Python web API ([docs](https://fastapi.tiangolo.com/))
+- **LangChain** – LLM app framework ([docs](https://python.langchain.com/))
+- **PostgreSQL + pgvector** – Scalable vector database ([pgvector docs](https://github.com/pgvector/pgvector))
+- **LLM Providers** – OpenAI, HuggingFace, etc.
 
-    Install Chainlit:
-    sh
+---
 
-pip install chainlit
+## 🧩 Workflow Diagram
 
-Create Chainlit App:
+```mermaid
+flowchart TD
+    A --> [User (Browser)] --> B[Chainlit UI]
+    B -->|REST API call| C[FastAPI Backend]
+    C --> D[LangChain RAG Logic]
+    D --> E[PostgreSQL + pgvector]
+    D --> F[LLM API]
+    E -- Retrieved Docs --> D
+    F -- Answer --> D
+    D -- Final Answer --> C
+    C -- Response --> B
+    B -- Display Answer --> A
+```
 
-    Connect to FastAPI backend via REST API
-    Display chat interface for user questions/answers
+---
 
-Run Chainlit:
-sh
+## 📝 Customization
 
-    chainlit run app.py
+- Add new document loaders in `backend/app/rag.py`
+- Edit prompt templates in `backend/app/rag.py`
+- Change database config in `.env` and `backend/app/config.py`
+- Style Chainlit UI in `chainlit-ui/app.py` and `.chainlit/`
 
-Step 4: Connecting Everything
+---
 
-    User sends query via Chainlit UI
-    Chainlit calls FastAPI /chat endpoint
-    FastAPI uses LangChain to search vector DB & generate response
-    Response returned to Chainlit and shown to user
+## 🤝 Contributing
 
-Step 5: Explore LangChain Components
+1. Fork the repo
+2. Create your feature branch: `git checkout -b feature/YourFeature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin feature/YourFeature`
+5. Open a Pull Request
 
-    Document Loaders: Ingest docs into vector DB
-    Prompt Templates: Customize LLM prompts
-    Chains: Build retrieval, QA, or custom flows
+---
 
-Step 6: RAG Overview
+## 📄 License
 
-    LLMs: Generate answers using context + retrieved documents
-    RAG: “Retrieval Augmented Generation” – fetch relevant info before answering
+MIT License
+
+---
+
+## 📬 Contact
+
+Questions, feedback, or collaboration?  
+Open an issue or reach out at [your-email@example.com](mailto:your-email@example.com)
