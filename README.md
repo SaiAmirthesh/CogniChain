@@ -54,8 +54,8 @@ project-root/
 
 ### 1. **Clone the repository**
 ```sh
-git clone https://github.com/yourusername/vectrachat.git
-cd vectrachat
+git clone https://github.com/yourusername/CogniChain.git
+cd CogniChain
 ```
 
 ### 2. **Set up PostgreSQL with pgvector**
@@ -98,7 +98,7 @@ Visit `http://localhost:8501` (or the port shown in Chainlit output) in your bro
 - **FastAPI** – Fast, modern Python web API ([docs](https://fastapi.tiangolo.com/))
 - **LangChain** – LLM app framework ([docs](https://python.langchain.com/))
 - **PostgreSQL + pgvector** – Scalable vector database ([pgvector docs](https://github.com/pgvector/pgvector))
-- **LLM Providers** – OpenAI, HuggingFace, etc.
+- **LLM Providers** – Gemini 2.5 flash.
 
 ---
 
