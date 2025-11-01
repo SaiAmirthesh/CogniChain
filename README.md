@@ -104,19 +104,7 @@ Visit `http://localhost:8501` (or the port shown in Chainlit output) in your bro
 
 ## 🧩 Workflow Diagram
 
-```mermaid
-flowchart TD
-    A --> [User (Browser)] --> B[Chainlit UI]
-    B -->|REST API call| C[FastAPI Backend]
-    C --> D[LangChain RAG Logic]
-    D --> E[PostgreSQL + pgvector]
-    D --> F[LLM API]
-    E -- Retrieved Docs --> D
-    F -- Answer --> D
-    D -- Final Answer --> C
-    C -- Response --> B
-    B -- Display Answer --> A
-```
+![Workflow Diagram](images/Workflow.png)
 
 ---
 
